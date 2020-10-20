@@ -1,85 +1,22 @@
 <template>
   <div id="app">
     <router-view/>
-    <canvas class='main-canvas'></canvas>
   </div>
 </template>
 
 <script>
-import * as THREE from 'three'
-import frag from './shaders/screen.frag'
-import vert from './shaders/screen.vert'
-import Easing from './utils/easing.js'
+import json from './assets/data.json'
+const data = json
+console.log(data)
 
 export default {
   name: 'App',
-  mounted () {
-    init()
-  }
-}
-
-const init = () => {
-  const canvas = document.querySelector('.main-canvas')
-  canvas.style.display = 'none'
-  const start = document.querySelector('.start')
-
-  let time = 0.0
-
-  let animeStart = false
-
-  const scene = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-  const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true
-  })
-
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  renderer.setPixelRatio(window.devicePixelRatio)
-
-  window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(window.devicePixelRatio)
-  })
-
-  const geometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
-  const material = new THREE.RawShaderMaterial({
-    uniforms: {
-      time: { value: 0.0 },
-      rez: { type: 'v2', value: [canvas.width, canvas.height] },
-      easing: { value: Easing.easeInOutCubic(time * 0.1 + 1.0) }
-    },
-    vertexShader: vert,
-    fragmentShader: frag
-  })
-  const mesh = new THREE.Mesh(geometry, material)
-  scene.add(mesh)
-
-  renderer.render(scene, camera)
-
-  start.addEventListener('click', () => {
-    animeStart = true
-  })
-
-  const update = () => {
-    requestAnimationFrame(update)
-
-    if (animeStart === true) {
-      time += 0.1
-      material.uniforms.time.value = time
-      canvas.style.display = 'block'
-      material.uniforms.easing.value = Easing.easeInOutCubic(time * 0.1 + 1.0)
-      if (material.uniforms.easing.value > 13.0) {
-        animeStart = false
-      }
-      console.log(animeStart)
+  data () {
+    return {
+      data
     }
-
-    renderer.render(scene, camera)
   }
-  requestAnimationFrame(update)
 }
-
 </script>
 
 <style lang="scss">
@@ -105,7 +42,7 @@ body {
   height: 100vh;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'KG Happy Solid';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
