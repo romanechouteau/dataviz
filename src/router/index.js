@@ -15,6 +15,10 @@ const routes = [
     path: '/specimen',
     name: 'Specimen',
     component: Specimen
+  },
+  {
+    path: '/*',
+    component: 404
   }
 ]
 
