@@ -20,3 +20,9 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+div {
+  margin: 40px 0;
+}
+</style>
