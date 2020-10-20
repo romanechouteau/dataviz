@@ -1,5 +1,5 @@
 ﻿{
-    "answers": [
+    "Réponses au formulaire 1": [
         {
             "Horodateur": "10/19/2020 12:15:47",
             "Quelle est votre année de naissance ?": "2000",
@@ -655,6 +655,23 @@
             "Quel est votre émoji préféré ?": "😂",
             "Quelle est votre console de jeux vidéos préférée ?": "PlayStation",
             "Quelle est votre couleur préférée ?": "Bleu"
+        },
+        {
+            "Horodateur": "10/19/2020 20:52:58",
+            "Quelle est votre année de naissance ?": "2000",
+            "Quel est votre animal de compagnie préféré ?": "Chien",
+            "Quelle est votre série préférée ?": "Malcolm",
+            "Quel est votre genre de film préféré?": "SF",
+            "Quelles langues sais-tu parler ?": "Français, Anglais, Espagnol",
+            "Combien de fois commande-tu à manger par semaine ?": "Jamais",
+            "Quel réseau social utilisez-vous le plus?": "Snapchat",
+            "Quelle plateforme de streaming vidéo utilisez-vous le plus ?": "Youtube",
+            "Quelle plateforme de streaming de musique utilisez-vous le plus ?": "Apple Music",
+            "Quelle est la marque de votre ordinateur ?": "ASUS",
+            "Quelle est votre ville d’origine ?": "Courcouronnes",
+            "Quel est votre émoji préféré ?": "xD",
+            "Quelle est votre console de jeux vidéos préférée ?": "PlayStation",
+            "Quelle est votre couleur préférée ?": "Orange"
         }
     ]
 }
