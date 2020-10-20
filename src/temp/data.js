@@ -2,7 +2,7 @@ const json = require('./data.json')
 const { isString, upperFirst, startCase, toLower, isEmpty, compact, split, capitalize, countBy, forEach, map } = require('lodash')
 const fs = require('fs')
 
-const data = json.answers
+const data = json['Réponses au formulaire 1']
 
 const total = data.length
 
