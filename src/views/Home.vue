@@ -2,7 +2,7 @@
   <div class="home">
     <div class="title">
       <h1>Le Specimen</h1>
-      <div class="logo">BDDI</div>
+      <img src="../assets/logo.gif" alt="BDDI" class="logo">
     </div>
     <div class="start">
       <span>Commencer</span>
@@ -109,24 +109,24 @@ const init = () => {
   color: white;
 
   .title {
-    margin-top: calc(10% + 16px);
+    margin-top: 15vh;
      h1 {
       text-transform: uppercase;
       letter-spacing: 1.2rem;
       margin-bottom: 16px;
     }
     .logo {
-      font-family: 'KG Happy';
-      font-size: 12rem;
-      line-height: 11rem;
-      margin: 16px 0;
+      display: block;
+      height: 35vh;
+      margin: 16px auto;
+      line-height: 1rem;
     }
   }
   .start {
-    margin-bottom: 5%;
     font-size: 1rem;
     cursor: pointer;
     padding: 8px;
+    margin-bottom: 10vh;
 
     .arrow-right {
       height: 0.8rem;
