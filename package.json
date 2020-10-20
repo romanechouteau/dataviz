@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "glsl-vue-loader": "^0.5.0",
     "lodash": "^4.17.20",
     "mongoose": "^5.10.9",
+    "raw-loader": "^4.0.2",
+    "three": "^0.121.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
   },
