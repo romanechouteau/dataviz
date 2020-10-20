@@ -15,6 +15,7 @@
     "raw-loader": "^4.0.2",
     "three": "^0.121.1",
     "vue": "^2.6.11",
+    "vue-animejs": "^2.1.1",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
