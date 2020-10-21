@@ -26,7 +26,6 @@
       <div class="bubble reseaux" :style="{ top: `${40 + bubblesY['bubbleReseaux'] * 5}%`, right: `${-50 - bubblesX['bubbleReseaux'] * 3}%`}" ref="bubbleReseaux"><img src="../assets/reseaux-sociaux.svg" alt="Réseaux sociaux"></div>
       <div class="bubble autre" :style="{ bottom: `${10 - bubblesY['bubbleAutre'] * 4}%`, right: `${-15 - bubblesX['bubbleAutre'] * 5}%`}" ref="bubbleAutre"><img src="../assets/autres.svg" alt="Autre"></div>
     </div>
-    <div class="test" style="background-color: red; position: absolute; top: 50px; width: 20px; height: 20px" ref="test"></div>
   </div>
 </template>
 
