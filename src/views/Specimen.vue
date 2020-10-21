@@ -173,8 +173,8 @@ export default {
       animation: 1.8s linear 0.5s infinite both float-shadow;
 
       #ombre-levitation {
-        // & .st27{fill:#EEEAE9;}
-        & .st27{fill:#e0e0e0;}
+        & .st27{fill:#EEEAE9;}
+        // & .st27{fill:#e0e0e0;}
       }
     }
 
