@@ -64,6 +64,7 @@ const init = () => {
     uniforms: {
       time: { value: 0.0 },
       rez: { type: 'v2', value: [canvas.width, canvas.height] },
+      waveColor: { type: 'v3', value: [1.0, 1.0, 1.0] },
       easing: { value: Easing.easeInOutCubic(time * 0.1 + 1.0) }
     },
     vertexShader: wvert,
