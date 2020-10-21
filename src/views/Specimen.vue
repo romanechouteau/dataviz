@@ -1,6 +1,6 @@
 <template>
   <div class="specimen">
-    <div class="bonhomme" ref="bonhomme" :style="{ transform: `translate(${bonhommeTranslateX}%, -50%)`}">
+    <div class="bonhomme" ref="bonhomme" :style="{ transform: `translate(${bonhommeTranslateX}%, -50%)`, left: `${bonhommeLeft}px`}">
       <div class="ombre" :style="{ width: `calc(50% - ${bonhommeTranslateY / 10}%)`}">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 494 66.8" style="enable-background:new 0 0 494 66.8;" xml:space="preserve">
           <g id="ombre-levitation">
@@ -29,7 +29,8 @@ export default {
   data () {
     return {
       mouseX: 0,
-      mouseY: 0
+      mouseY: 0,
+      windowWidth: window.innerWidth
     }
   },
   computed: {
@@ -38,12 +39,18 @@ export default {
     },
     bonhommeTranslateY: function () {
       return 0 - this.mouseY * 20
+    },
+    bonhommeLeft: function () {
+      return this.$refs.bonhomme ? this.windowWidth / 2 - this.$refs.bonhomme.offsetWidth / 2 : this.windowWidth - this.windowWidth
     }
   },
   mounted () {
     window.addEventListener('mousemove', (e) => {
       this.mouseX = e.clientX / window.innerWidth * 2 - 1
       this.mouseY = e.clientY / window.innerHeight * 2 - 1
+    })
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth
     })
     this
       .$anime
@@ -118,6 +125,7 @@ export default {
       }
 
       & #squeleton {
+        display: block;
         & .cls-1,& .cls-2{fill:none;}& .cls-2{stroke:#000;}& .cls-2,& .cls-23{stroke-linecap:round;stroke-linejoin:round;stroke-width:6px;}& .cls-3{fill:#fce8d0;}& .cls-4{fill:#f7de6c;}& .cls-5{fill:#f5bc8b;}& .cls-6{fill:#4278fc;}& .cls-23,& .cls-7{fill:#fff;}& .cls-8{fill:#86e9ef;}& .cls-9{clip-path:url(#clip-path);}& .cls-10{fill:#39c6d2;}& .cls-11{clip-path:url(#clip-path-2);}& .cls-12{clip-path:url(#clip-path-3);}& .cls-13{clip-path:url(#clip-path-4);}& .cls-14{clip-path:url(#clip-path-5);}& .cls-15{clip-path:url(#clip-path-6);}& .cls-16{clip-path:url(#clip-path-7);}& .cls-17{clip-path:url(#clip-path-8);}& .cls-18{clip-path:url(#clip-path-9);}& .cls-19{clip-path:url(#clip-path-10);}& .cls-20{clip-path:url(#clip-path-11);}& .cls-21{clip-path:url(#clip-path-12);}& .cls-22{clip-path:url(#clip-path-13);}& .cls-23{stroke:#205f7b;}
       }
     }
@@ -156,6 +164,19 @@ export default {
   }
   to {
     transform: scale(1) translateX(-50%);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .specimen {
+    .bonhomme {
+      & .corps {
+        & svg {
+          height: auto;
+          width: 90vw;
+        }
+      }
+    }
   }
 }
 </style>

@@ -105,11 +105,10 @@ const init = () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   color: white;
 
   .title {
-    margin-top: 15vh;
      h1 {
       text-transform: uppercase;
       letter-spacing: 1.2rem;
@@ -123,10 +122,13 @@ const init = () => {
     }
   }
   .start {
+    position: absolute;
+    bottom: 10vh;
+    left: 50vw;
     font-size: 1rem;
     cursor: pointer;
     padding: 8px;
-    margin-bottom: 10vh;
+    transform: translateX(-50%);
 
     .arrow-right {
       height: 0.8rem;
@@ -134,6 +136,23 @@ const init = () => {
 
       & path {
         fill: white;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+
+    .title {
+      .logo {
+        height: auto;
+        width: 90%;
       }
     }
   }

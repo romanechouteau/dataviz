@@ -37,9 +37,16 @@ export default {
   margin: 0;
   padding: 0;
 }
-body {
-  position: relative;
+html {
+  position:fixed;
   height: 100vh;
+  height: -webkit-fill-available;
+  width: 100%;
+}
+body {
+  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 #app {
   font-family: 'KG Happy Solid';
