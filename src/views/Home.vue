@@ -20,8 +20,8 @@
 
 <script>
 import * as THREE from 'three'
-import frag from '../shaders/screen.frag'
-import vert from '../shaders/screen.vert'
+import wfrag from '../shaders/wave.frag'
+import wvert from '../shaders/wave.vert'
 import Easing from '../utils/easing.js'
 
 import router from '../router'
@@ -66,8 +66,8 @@ const init = () => {
       rez: { type: 'v2', value: [canvas.width, canvas.height] },
       easing: { value: Easing.easeInOutCubic(time * 0.1 + 1.0) }
     },
-    vertexShader: vert,
-    fragmentShader: frag
+    vertexShader: wvert,
+    fragmentShader: wfrag
   })
   const mesh = new THREE.Mesh(geometry, material)
   scene.add(mesh)
