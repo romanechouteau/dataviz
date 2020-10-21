@@ -7,17 +7,24 @@
 <style scoped lang="scss">
 .bubble {
   width: 80px;
-  height: 80px;
+  height: auto;
   padding: 8px;
   position: absolute;
-  right: 120px;
-  top: 96px;
+  right: 96px;
+  top: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
 
   & img {
     width: 90%;
+  }
+}
+
+@media (max-width: 640px) {
+  .bubble {
+    right: 5vw;
+    top: 4vh;
   }
 }
 </style>
