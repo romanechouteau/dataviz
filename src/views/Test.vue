@@ -7,7 +7,7 @@
 <style scoped lang="scss">
 .bubble {
   width: 80px;
-  height: auto;
+  height: 80px;
   padding: 8px;
   position: absolute;
   right: 120px;

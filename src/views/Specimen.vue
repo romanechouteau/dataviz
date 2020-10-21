@@ -47,7 +47,8 @@ export default {
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
       parallax: true,
-      animeStart: false
+      animeStart: false,
+      finalAnim: false
     }
   },
   computed: {
@@ -131,7 +132,9 @@ export default {
         if (material.uniforms.easing.value > 5.0) {
           this.animeStart = false
           body.style.backgroundColor = 'black'
-          router.push('/test')
+          if (this.finalAnim === false) {
+            router.push('/test')
+          }
         }
       }
       renderer.render(scene, camera)
@@ -205,8 +208,6 @@ export default {
       this.parallax = false
       const left = this.$refs[bubble].getBoundingClientRect().left
       const top = this.$refs[bubble].getBoundingClientRect().top
-      const width = this.$refs[bubble].offsetWidth
-      const height = this.$refs[bubble].offsetHeight
       const thisBubble = RegExp('^' + bubble + 'Img$')
       this.$refs[bubble].style.zIndex = 3
       this
@@ -217,25 +218,33 @@ export default {
           easing: 'easeInOutCubic'
         })
       this
-        .$anime({
+        .$anime
+        .timeline()
+        .add({
           targets: [this.$refs.corps, this.$refs.ombre],
           left: 0 - this.windowWidth,
           duration: 1500,
-          easing: 'easeInOutCubic'
+          easing: 'easeInOutCubic',
+          complete: () => {
+            this.finalAnim = true
+            this.animeStart = true
+          }
         })
-      this
-        .$anime({
+        .add({
           targets: this.$refs[bubble],
-          translateX: (this.windowWidth / 2 - (this.windowWidth / 6 - width / 2)) - left,
-          translateY: (this.windowHeight / 2 - (this.windowWidth / 6 - height / 2)) - top,
-          width: this.windowWidth / 3,
-          height: this.windowHeight / 3,
-          maxWidth: 1000,
-          maxHeight: 1000,
+          translateX: this.windowWidth - 120 - left - 80,
+          translateY: 96 - top,
+          width: 80,
+          height: 80,
+          minWidth: 0,
+          minHeight: 0,
           duration: 1500,
           easing: 'easeInOutCubic',
           complete: () => {
-            this.animeStart = true
+            this.finalAnim = false
+            if (this.animeStart === false) {
+              router.push('/test')
+            }
           }
         })
     }
@@ -326,6 +335,9 @@ export default {
         }
       }
     }
+  }
+  .main-canvas {
+    z-index: -1;
   }
 }
 @keyframes float {
