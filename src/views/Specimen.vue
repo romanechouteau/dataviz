@@ -20,11 +20,11 @@
         </svg>
       </div>
       <div class="bubble id" :style="{ top: `${-10 + bubblesY['bubbleId'] * 3}%`, left: `${-20 + bubblesX['bubbleId'] * 4}%`}" ref="bubbleId"><img src="../assets/id.svg" alt="Identité" ref="bubbleIdImg"></div>
-      <div class="bubble cine" :style="{ top: `${40 + bubblesY['bubbleCine'] * 5}%`, left: `${-50 + bubblesX['bubbleCine'] * 3}%`}" ref="bubbleCine"><img src="../assets/cine-series.svg" alt="Cinéma & séries" ref="bubbleIdCine"></div>
-      <div class="bubble streaming" :style="{ bottom: `${10 - bubblesY['bubbleStreaming'] * 4}%`, left: `${-15 + bubblesX['bubbleStreaming'] * 5}%`}" ref="bubbleStreaming"><img src="../assets/streaming.svg" alt="Streaming" ref="bubbleIdStreaming"></div>
-      <div class="bubble techno" :style="{ top: `${-10 + bubblesY['bubbleTechno'] * 3}%`, right: `${-20 - bubblesX['bubbleTechno'] * 4}%`}" ref="bubbleTechno"><img src="../assets/techno.svg" alt="Technologies" ref="bubbleIdTechno"></div>
-      <div class="bubble reseaux" :style="{ top: `${40 + bubblesY['bubbleReseaux'] * 5}%`, right: `${-50 - bubblesX['bubbleReseaux'] * 3}%`}" ref="bubbleReseaux"><img src="../assets/reseaux-sociaux.svg" alt="Réseaux sociaux" ref="bubbleIdReseaux"></div>
-      <div class="bubble autre" :style="{ bottom: `${10 - bubblesY['bubbleAutre'] * 4}%`, right: `${-15 - bubblesX['bubbleAutre'] * 5}%`}" ref="bubbleAutre"><img src="../assets/autres.svg" alt="Autre" ref="bubbleIdAutre"></div>
+      <div class="bubble cine" :style="{ top: `${40 + bubblesY['bubbleCine'] * 5}%`, left: `${-50 + bubblesX['bubbleCine'] * 3}%`}" ref="bubbleCine"><img src="../assets/cine-series.svg" alt="Cinéma & séries" ref="bubbleCineImg"></div>
+      <div class="bubble streaming" :style="{ bottom: `${10 - bubblesY['bubbleStreaming'] * 4}%`, left: `${-15 + bubblesX['bubbleStreaming'] * 5}%`}" ref="bubbleStreaming"><img src="../assets/streaming.svg" alt="Streaming" ref="bubbleStreamingImg"></div>
+      <div class="bubble techno" :style="{ top: `${-10 + bubblesY['bubbleTechno'] * 3}%`, right: `${-20 - bubblesX['bubbleTechno'] * 4}%`}" ref="bubbleTechno"><img src="../assets/techno.svg" alt="Technologies" ref="bubbleTechnoImg"></div>
+      <div class="bubble reseaux" :style="{ top: `${40 + bubblesY['bubbleReseaux'] * 5}%`, right: `${-50 - bubblesX['bubbleReseaux'] * 3}%`}" ref="bubbleReseaux"><img src="../assets/reseaux-sociaux.svg" alt="Réseaux sociaux" ref="bubbleReseauxImg"></div>
+      <div class="bubble autre" :style="{ bottom: `${10 - bubblesY['bubbleAutre'] * 4}%`, right: `${-15 - bubblesX['bubbleAutre'] * 5}%`}" ref="bubbleAutre"><img src="../assets/autres.svg" alt="Autre" ref="bubbleAutreImg"></div>
     </div>
   </div>
 </template>
@@ -39,43 +39,6 @@ export default {
       mouseY: 0,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight
-      // bubbles: [
-      //   {
-      //     name: 'Id',
-      //     img: 'id.svg',
-      //     position: ['top', 'left'],
-      //     alt: 'Identité'
-      //   },
-      //   {
-      //     name: 'Cine',
-      //     img: 'cine-series.svg',
-      //     position: ['mid', 'left'],
-      //     alt: 'Cinéma & séries'
-      //   },
-      //   {
-      //     name: 'Streaming',
-      //     img: 'streaming.svg',
-      //     position: ['bottom', 'left'],
-      //     alt: 'Streaming'
-      //   },
-      //   {
-      //     name: 'Autre',
-      //     img: 'autres.svg',
-      //     position: ['bottom', 'right'],
-      //     alt: 'Autre'
-      //   },
-      //   {
-      //     name: 'Reseaux',
-      //     img: 'reseaux-sociaux.svg',
-      //     position: ['mid', 'right'],
-      //     alt: 'Réseaux'
-      //   },
-      //   {
-      //     name: 'Techno',
-      //     img: 'techno.svg',
-      //     position: ['top', 'right']
-      //   },
-      // ]
     }
   },
   computed: {
@@ -137,22 +100,22 @@ export default {
         targets: this.$refs.scanner,
         height: [1389, 0],
         y: [0, 1389],
-        duration: 1000,
-        delay: 400,
+        duration: 800,
+        delay: 200,
         easing: 'cubicBezier(0.410, 0.615, 0.805, 0.130)'
       })
       .add({
         targets: this.$refs.scanner,
         height: [0, 1389],
         y: [1389, 0],
-        duration: 800,
+        duration: 600,
         easing: 'easeInOutCubic'
       })
       .add({
         targets: this.$refs.scanner,
         height: [1389, 0],
         y: [0, 1389],
-        duration: 500,
+        duration: 400,
         delay: 400,
         easing: 'cubicBezier(0.975, 0.210, 0.310, 0.720)'
       })
@@ -160,16 +123,16 @@ export default {
       //   targets: this.$refs.scanner,
       //   height: [0, 1389],
       //   y: [1389, 0],
-      //   duration: 500,
+      //   duration: 400,
       //   delay: 400,
       //   easing: 'easeOutCubic'
       // })
       .add({
-        targets: filter(this.$refs, (val, key) => /bubble/gi.test(key)),
+        targets: filter(this.$refs, (val, key) => /bubble.*Img/gi.test(key)),
         width: ['0%', '90%'],
         height: ['0%', 'auto'],
         duration: 800,
-        delay: this.$anime.stagger(100),
+        delay: this.$anime.stagger(200, { start: 200 }),
         easing: 'easeOutElastic'
       })
   }
