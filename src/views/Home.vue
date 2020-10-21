@@ -130,14 +130,43 @@ const init = () => {
     padding: 8px;
     transform: translateX(-50%);
 
+    span {
+      transition: all 1s ease;
+      display: inline-block;
+    }
+
     .arrow-right {
       height: 0.8rem;
       margin-left: 16px;
+      transition: all 1s ease;
 
       & path {
         fill: white;
       }
     }
+
+    &:hover {
+      span {
+        transform: translateX(-16%);
+      }
+      .arrow-right {
+        animation: arrow 1.5s ease forwards infinite;
+      }
+    }
+  }
+}
+
+@keyframes arrow {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
   }
 }
 
