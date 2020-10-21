@@ -86,7 +86,7 @@ const init = () => {
       material.uniforms.time.value = time
       canvas.style.display = 'block'
       material.uniforms.easing.value = Easing.easeInOutCubic(time * 0.1 + 1.0)
-      if (material.uniforms.easing.value > 13.0) {
+      if (material.uniforms.easing.value > 5.0) {
         animeStart = false
         body.style.backgroundColor = 'white'
         router.push('/specimen')

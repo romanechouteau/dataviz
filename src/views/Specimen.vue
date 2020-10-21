@@ -58,7 +58,7 @@ export default {
       .add({
         targets: this.$refs.bonhomme,
         left: [0 - this.$refs.bonhomme.offsetWidth, window.innerWidth / 2 - this.$refs.bonhomme.offsetWidth / 2],
-        duration: 2000,
+        duration: 1500,
         easing: 'easeInOutCubic'
       })
       .add({

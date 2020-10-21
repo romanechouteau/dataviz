@@ -10,7 +10,7 @@ void main() {
    vec4 color1 = vec4(1., 1., 1., 1.);
    vec4 color2 = vec4(0., 0., 0., 0.);
 
-   float mixValue = step(vUv.x + easing * .2 - .2 + sin(vUv.y * 5. + easing) * .1 - .1, 1.);
+   float mixValue = step(vUv.x + easing * .4 - .4 + sin(vUv.y * 5. + easing) * .1 - .1, 1.);
 
    vec4 finalColor = mix(color1, color2, mixValue);
 
