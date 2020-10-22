@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Specimen from '../views/Specimen.vue'
-import Test from '../views/Test.vue'
+import Data from '../views/Data.vue'
 
 Vue.use(VueRouter)
 
@@ -18,9 +18,10 @@ const routes = [
     component: Specimen
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: Test
+    path: '/data/:id',
+    name: 'Data',
+    component: Data,
+    props: true
   },
   {
     path: '/*',

@@ -20,11 +20,11 @@
         </svg>
       </div>
       <div class="bubble id" :style="{ top: `calc(var(--topId) + ${bubblesY['bubbleId'] * 3}%)`, left: `calc(var(--leftId) + ${bubblesX['bubbleId'] * 0.5}%)`}" ref="bubbleId" v-on:click="bubbleClick('bubbleId')"><img src="../assets/id.svg" alt="Identité" ref="bubbleIdImg"></div>
-      <div class="bubble cine" :style="{ top: `calc(var(--topCine) + ${bubblesY['bubbleCine'] * 2}%)`, left: `calc(var(--leftCine) + ${bubblesX['bubbleCine'] * 1}%)`}" ref="bubbleCine"><img src="../assets/cine-series.svg" alt="Cinéma & séries" ref="bubbleCineImg"></div>
-      <div class="bubble streaming" :style="{ bottom: `calc(var(--bottomStreaming) - ${bubblesY['bubbleStreaming'] * 3}%)`, left: `calc(var(--leftStreaming) + ${bubblesX['bubbleStreaming'] * 0.5}%)`}" ref="bubbleStreaming"><img src="../assets/streaming.svg" alt="Streaming" ref="bubbleStreamingImg"></div>
-      <div class="bubble techno" :style="{ top: `calc(var(--topTechno) + ${bubblesY['bubbleTechno'] * 3}%)`, right: `calc(var(--rightTechno) - ${bubblesX['bubbleTechno'] * 0.5}%)`}" ref="bubbleTechno"><img src="../assets/techno.svg" alt="Technologies" ref="bubbleTechnoImg"></div>
-      <div class="bubble reseaux" :style="{ bottom: `calc(var(--bottomReseaux) - ${bubblesY['bubbleReseaux'] * 2}%)`, right: `calc(var(--rightReseaux) - ${bubblesX['bubbleReseaux'] * 1}%)`}" ref="bubbleReseaux"><img src="../assets/reseaux-sociaux.svg" alt="Réseaux sociaux" ref="bubbleReseauxImg"></div>
-      <div class="bubble autre" :style="{ bottom: `calc(var(--bottomAutre) - ${bubblesY['bubbleAutre'] * 3}%)`, right: `calc(var(--rightAutre) - ${bubblesX['bubbleAutre'] * 0.5}%)`}" ref="bubbleAutre"><img src="../assets/autres.svg" alt="Autre" ref="bubbleAutreImg"></div>
+      <div class="bubble cine" :style="{ top: `calc(var(--topCine) + ${bubblesY['bubbleCine'] * 2}%)`, left: `calc(var(--leftCine) + ${bubblesX['bubbleCine'] * 1}%)`}" ref="bubbleCine" v-on:click="bubbleClick('bubbleCine')"><img src="../assets/cine-series.svg" alt="Cinéma & séries" ref="bubbleCineImg"></div>
+      <div class="bubble streaming" :style="{ bottom: `calc(var(--bottomStreaming) - ${bubblesY['bubbleStreaming'] * 3}%)`, left: `calc(var(--leftStreaming) + ${bubblesX['bubbleStreaming'] * 0.5}%)`}" ref="bubbleStreaming" v-on:click="bubbleClick('bubbleStreaming')"><img src="../assets/streaming.svg" alt="Streaming" ref="bubbleStreamingImg"></div>
+      <div class="bubble techno" :style="{ top: `calc(var(--topTechno) + ${bubblesY['bubbleTechno'] * 3}%)`, right: `calc(var(--rightTechno) - ${bubblesX['bubbleTechno'] * 0.5}%)`}" ref="bubbleTechno" v-on:click="bubbleClick('bubbleTechno')"><img src="../assets/techno.svg" alt="Technologies" ref="bubbleTechnoImg"></div>
+      <div class="bubble reseaux" :style="{ bottom: `calc(var(--bottomReseaux) - ${bubblesY['bubbleReseaux'] * 2}%)`, right: `calc(var(--rightReseaux) - ${bubblesX['bubbleReseaux'] * 1}%)`}" ref="bubbleReseaux" v-on:click="bubbleClick('bubbleReseaux')"><img src="../assets/reseaux-sociaux.svg" alt="Réseaux sociaux" ref="bubbleReseauxImg"></div>
+      <div class="bubble autre" :style="{ bottom: `calc(var(--bottomAutre) - ${bubblesY['bubbleAutre'] * 3}%)`, right: `calc(var(--rightAutre) - ${bubblesX['bubbleAutre'] * 0.5}%)`}" ref="bubbleAutre" v-on:click="bubbleClick('bubbleAutre')"><img src="../assets/autres.svg" alt="Autre" ref="bubbleAutreImg"></div>
     </div>
     <canvas class='main-canvas'></canvas>
   </div>
@@ -36,7 +36,7 @@ import * as THREE from 'three'
 import wfrag from '../shaders/wave.frag'
 import wvert from '../shaders/wave.vert'
 import Easing from '../utils/easing.js'
-const { filter, forEach, keys, isEmpty } = require('lodash')
+const { filter, forEach, keys, isEmpty, lowerFirst } = require('lodash')
 
 export default {
   name: 'Specimen',
@@ -49,8 +49,12 @@ export default {
       parallax: true,
       animeStart: false,
       finalAnim: false,
-      corpsWidth: 0
+      corpsWidth: 0,
+      clicked: 'none'
     }
+  },
+  props: {
+    scanned: Boolean
   },
   computed: {
     bonhommeTranslateX: function () {
@@ -91,6 +95,7 @@ export default {
 
     const canvas = document.querySelector('.main-canvas')
     const body = document.querySelector('body')
+    body.style.backgroundColor = 'white'
     canvas.style.display = 'none'
 
     let time = 0.0
@@ -133,7 +138,7 @@ export default {
           this.animeStart = false
           body.style.backgroundColor = 'black'
           if (this.finalAnim === false) {
-            router.push('/test')
+            router.push(`/data/${this.clicked}`)
           }
         }
       }
@@ -153,74 +158,101 @@ export default {
       renderer.setSize(window.innerWidth, window.innerHeight)
       renderer.setPixelRatio(window.devicePixelRatio)
     })
-    this
-      .$anime
-      .timeline()
-      .add({
-        targets: this.$refs.bonhomme,
-        left: [0 - this.$refs.bonhomme.offsetWidth, 0],
-        duration: 1500,
-        easing: 'easeInOutCubic'
+    if (this.$props.scanned === false) {
+      this
+        .$anime
+        .timeline()
+        .add({
+          targets: this.$refs.bonhomme,
+          left: [0 - this.$refs.bonhomme.offsetWidth, 0],
+          duration: 1500,
+          easing: 'easeInOutCubic'
+        })
+        .add({
+          targets: this.$refs.scanner,
+          height: [1389, 0],
+          y: [0, 1389],
+          duration: 800,
+          delay: 200,
+          easing: 'cubicBezier(0.410, 0.615, 0.805, 0.130)'
+        })
+        .add({
+          targets: this.$refs.scanner,
+          height: [0, 1389],
+          y: [1389, 0],
+          duration: 600,
+          easing: 'easeInOutCubic'
+        })
+        .add({
+          targets: this.$refs.scanner,
+          height: [1389, 0],
+          y: [0, 1389],
+          duration: 400,
+          delay: 400,
+          easing: 'cubicBezier(0.975, 0.210, 0.310, 0.720)'
+        })
+        // .add({
+        //   targets: this.$refs.scanner,
+        //   height: [0, 1389],
+        //   y: [1389, 0],
+        //   duration: 400,
+        //   delay: 400,
+        //   easing: 'easeOutCubic'
+        // })
+        .add({
+          targets: filter(this.$refs, (val, key) => /bubble.*Img/gi.test(key)),
+          width: ['0%', '90%'],
+          height: ['0%', 'auto'],
+          duration: 800,
+          delay: this.$anime.stagger(200, { start: 200 }),
+          easing: 'easeOutElastic',
+          complete: () => {
+            this.$emit('isScanned')
+          }
+        })
+    } else {
+      body.style.backgroundColor = 'white'
+      this.$refs.bonhomme.style.left = 0
+      this.$refs.bonhomme.style.opacity = 0
+      this.$refs.scanner.style.height = 0
+      this.$refs.scanner.style.y = 1389
+      filter(this.$refs, (val, key) => /bubble.*Img/gi.test(key)).forEach((val) => {
+        val.style.width = '90%'
+        val.style.height = 'auto'
       })
-      .add({
-        targets: this.$refs.scanner,
-        height: [1389, 0],
-        y: [0, 1389],
-        duration: 800,
-        delay: 200,
-        easing: 'cubicBezier(0.410, 0.615, 0.805, 0.130)'
-      })
-      .add({
-        targets: this.$refs.scanner,
-        height: [0, 1389],
-        y: [1389, 0],
-        duration: 600,
-        easing: 'easeInOutCubic'
-      })
-      .add({
-        targets: this.$refs.scanner,
-        height: [1389, 0],
-        y: [0, 1389],
-        duration: 400,
-        delay: 400,
-        easing: 'cubicBezier(0.975, 0.210, 0.310, 0.720)'
-      })
-      // .add({
-      //   targets: this.$refs.scanner,
-      //   height: [0, 1389],
-      //   y: [1389, 0],
-      //   duration: 400,
-      //   delay: 400,
-      //   easing: 'easeOutCubic'
-      // })
-      .add({
-        targets: filter(this.$refs, (val, key) => /bubble.*Img/gi.test(key)),
-        width: ['0%', '90%'],
-        height: ['0%', 'auto'],
-        duration: 800,
-        delay: this.$anime.stagger(200, { start: 200 }),
-        easing: 'easeOutElastic'
-      })
+      this
+        .$anime({
+          targets: this.$refs.bonhomme,
+          opacity: ['0', '1'],
+          duration: 1000,
+          delay: 1000
+        })
+    }
   },
   methods: {
     bubbleClick (bubble) {
-      this.$refs[bubble].style.animation = 'none'
+      this.clicked = lowerFirst(bubble.replace('bubble', ''))
       this.parallax = false
-      const left = this.$refs[bubble].getBoundingClientRect().left
-      const top = this.$refs[bubble].getBoundingClientRect().top
+      const left = this.$refs[bubble].offsetLeft
+      const top = this.$refs[bubble].offsetTop
+      this.$refs[bubble].style.left = left + 'px'
+      this.$refs[bubble].style.right = ''
+      this.$refs[bubble].style.top = top + 'px'
+      this.$refs[bubble].style.bottom = ''
+      this.$refs[bubble].style.animation = 'none'
+
       const thisBubble = RegExp('^' + bubble + 'Img$')
       this.$refs[bubble].style.zIndex = 3
       this.$refs[bubble].style.pointerEvents = 'none'
       this
-        .$anime({
+        .$anime
+        .timeline()
+        .add({
           targets: [filter(this.$refs, (val, key) => /bubble.*Img/g.test(key) && !thisBubble.test(key))],
           translateX: '-100vw',
           duration: 1500,
           easing: 'easeInOutCubic'
         })
-      this
-        .$anime
-        .timeline()
         .add({
           targets: [this.$refs.corps, this.$refs.ombre],
           left: 0 - this.windowWidth,
@@ -230,10 +262,10 @@ export default {
             this.finalAnim = true
             this.animeStart = true
           }
-        })
+        }, '-= 1500')
         .add({
           targets: this.$refs[bubble],
-          translateX: this.windowWidth > 640 ? this.windowWidth - 96 - left - 80 : this.windowWidth - (this.windowWidth * 0.05) - left - 80,
+          translateX: this.windowWidth > 640 ? this.windowWidth - left - 96 - 80 : this.windowWidth - left - (this.windowWidth * 0.05) - 80,
           translateY: this.windowWidth > 640 ? 48 - top : this.windowHeight * 0.04 - top,
           width: 80,
           minWidth: 0,
@@ -242,11 +274,18 @@ export default {
           easing: 'easeInOutCubic',
           complete: () => {
             this.finalAnim = false
+            this.$emit('bubbleClick', this.clicked)
             if (this.animeStart === false) {
-              router.push('/test')
+              router.push(`/data/${this.clicked}`)
             }
           }
         })
+        .add({
+          targets: this.$refs.bonhomme,
+          translateX: 0,
+          duration: 500,
+          easing: 'easeInOutCubic'
+        }, '-=1500')
     }
   }
 }

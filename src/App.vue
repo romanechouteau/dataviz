@@ -1,6 +1,16 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view v-if="$route.fullPath === '/specimen'" v-bind:scanned="scanned" v-on:isScanned="scanned = true" v-on:bubbleClick="bubble = $event"/>
+    <router-view v-else-if="$route.fullPath === '/'" v-bind:data="data" v-bind:scanned="scanned" v-on:isScanned="scanned = true"/>
+    <router-view v-else v-bind:data="data" v-on:bubbleClick="bubble = $event"/>
+    <template v-if="bubble !== 'none'">
+      <div class="tinyBubble id" ref="bubbleId" v-if="bubble === 'id'"><img src="./assets/id.svg" alt="Identité"></div>
+      <div class="tinyBubble cine" ref="bubbleCine" v-else-if="bubble === 'cine'"><img src="./assets/cine-series.svg" alt="Cinéma & séries"></div>
+      <div class="tinyBubble streaming" ref="bubbleStreaming" v-else-if="bubble === 'streaming'"><img src="./assets/streaming.svg" alt="Streaming"></div>
+      <div class="tinyBubble techno" ref="bubbleTechno" v-else-if="bubble === 'techno'"><img src="./assets/techno.svg" alt="Technologies"></div>
+      <div class="tinyBubble reseaux" ref="bubbleReseaux" v-else-if="bubble === 'reseaux'"><img src="./assets/reseaux-sociaux.svg" alt="Réseaux sociaux"></div>
+      <div class="tinyBubble autre" ref="bubbleAutre" v-else-if="bubble === 'autre'"><img src="./assets/autres.svg" alt="Autre"></div>
+    </template>
   </div>
 </template>
 
@@ -13,7 +23,9 @@ export default {
   name: 'App',
   data () {
     return {
-      data
+      data,
+      scanned: false,
+      bubble: 'none'
     }
   }
 }
@@ -62,5 +74,27 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+}
+.tinyBubble {
+  width: 80px;
+  height: auto;
+  padding: 8px;
+  position: absolute;
+  right: 96px;
+  top: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & img {
+    width: 90%;
+  }
+}
+
+@media (max-width: 640px) {
+  .bubble {
+    right: 5vw;
+    top: 4vh;
+  }
 }
 </style>
