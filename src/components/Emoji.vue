@@ -1,17 +1,5 @@
 <template>
   <div class="dataviz-comp">
-    <!-- <div class="emoji" v-for="(value, key) in data.values" v-bind:key="key" :style="{ 'font-size': 1 * value.value + 'vw', left: Math.random() * 50 + '%', top: Math.random() * 50 + '%', transform: 'translate(-50%, -50%)'}">{{ value.name }}</div> -->
-    <!-- <wordcloud
-      :data="data.values"
-      nameKey="name"
-      valueKey="value"
-      fontScale="sqrt"
-      :fontSize="[30, 200]"
-      font="Gilroy Regular"
-      :showTooltip="false"
-      :margin="{top: 0, right: 0, bottom: 0, left: 0 }"
-      class="wordcloud">
-      </wordcloud> -->
       <vue-word-cloud
         :words="wordCLoudList"
         font-family="Gilroy Regular"
