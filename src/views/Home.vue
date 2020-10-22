@@ -203,7 +203,7 @@ export default {
   }
   .start {
     position: relative;
-    font-size: 1rem;
+    font-size: 1.1rem;
     cursor: pointer;
     padding: 16px 48px;
     color: black;

@@ -104,7 +104,7 @@ body {
 }
 
 @media (max-width: 640px) {
-  .bubble {
+  .tinyBubble {
     right: 5vw;
     top: 4vh;
   }
