@@ -4,12 +4,12 @@
     <router-view v-else-if="$route.fullPath === '/'" v-bind:data="data" v-bind:scanned="scanned" v-on:isScanned="scanned = true"/>
     <router-view v-else v-bind:data="data" v-on:bubbleClick="bubble = $event"/>
     <template v-if="bubble !== 'none'">
-      <div class="tinyBubble id" ref="bubbleId" v-if="bubble === 'id'"><img src="./assets/id.svg" alt="Identité"></div>
-      <div class="tinyBubble cine" ref="bubbleCine" v-else-if="bubble === 'cine'"><img src="./assets/cine-series.svg" alt="Cinéma & séries"></div>
-      <div class="tinyBubble streaming" ref="bubbleStreaming" v-else-if="bubble === 'streaming'"><img src="./assets/streaming.svg" alt="Streaming"></div>
-      <div class="tinyBubble techno" ref="bubbleTechno" v-else-if="bubble === 'techno'"><img src="./assets/techno.svg" alt="Technologies"></div>
-      <div class="tinyBubble reseaux" ref="bubbleReseaux" v-else-if="bubble === 'reseaux'"><img src="./assets/reseaux-sociaux.svg" alt="Réseaux sociaux"></div>
-      <div class="tinyBubble autre" ref="bubbleAutre" v-else-if="bubble === 'autre'"><img src="./assets/autres.svg" alt="Autre"></div>
+      <div class="tinyBubble id" ref="bubbleId" v-if="/id/i.test(bubble)"><img src="./assets/id.svg" alt="Identité"></div>
+      <div class="tinyBubble cine" ref="bubbleCine" v-else-if="/cine/i.test(bubble)"><img src="./assets/cine-series.svg" alt="Cinéma & séries"></div>
+      <div class="tinyBubble streaming" ref="bubbleStreaming" v-else-if="/streaming/i.test(bubble)"><img src="./assets/streaming.svg" alt="Streaming"></div>
+      <div class="tinyBubble techno" ref="bubbleTechno" v-else-if="/techno/i.test(bubble)"><img src="./assets/techno.svg" alt="Technologies"></div>
+      <div class="tinyBubble reseaux" ref="bubbleReseaux" v-else-if="/reseaux/i.test(bubble)"><img src="./assets/reseaux-sociaux.svg" alt="Réseaux sociaux"></div>
+      <div class="tinyBubble autre" ref="bubbleAutre" v-else-if="/autre/i.test(bubble)"><img src="./assets/autres.svg" alt="Autre"></div>
     </template>
   </div>
 </template>

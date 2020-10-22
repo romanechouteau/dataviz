@@ -4,7 +4,7 @@
       <h1>Le Specimen</h1>
       <img src="../assets/logo.gif" alt="BDDI" class="logo">
     </div>
-    <div class="start">
+    <div class="start" v-on:click="animeStart = true">
       <span>Commencer</span>
       <svg class="arrow-right" xmlns="http://www.w3.org/2000/svg" width="59.139" height="16.847" viewBox="0 0 59.139 16.847">
         <g id="arrow-right" transform="translate(0 -0.053)">
@@ -28,75 +28,69 @@ import router from '../router'
 
 export default {
   name: 'Home',
+  data () {
+    return {
+      animeStart: false
+    }
+  },
   mounted () {
-    init()
-  }
-}
+    const canvas = document.querySelector('.main-canvas')
+    canvas.style.display = 'none'
+    const body = document.querySelector('body')
+    body.style.backgroundColor = 'black'
 
-const init = () => {
-  const canvas = document.querySelector('.main-canvas')
-  canvas.style.display = 'none'
-  const start = document.querySelector('.start')
-  const body = document.querySelector('body')
-  body.style.backgroundColor = 'black'
+    let time = 0.0
 
-  let time = 0.0
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true
+    })
 
-  let animeStart = false
-
-  const scene = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-  const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true
-  })
-
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  renderer.setPixelRatio(window.devicePixelRatio)
-
-  window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(window.devicePixelRatio)
-  })
 
-  const geometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
-  const material = new THREE.RawShaderMaterial({
-    uniforms: {
-      time: { value: 0.0 },
-      rez: { type: 'v2', value: [canvas.width, canvas.height] },
-      waveColor: { type: 'v3', value: [1.0, 1.0, 1.0] },
-      easing: { value: Easing.easeInOutCubic(time * 0.1 + 1.0) }
-    },
-    vertexShader: wvert,
-    fragmentShader: wfrag
-  })
-  const mesh = new THREE.Mesh(geometry, material)
-  scene.add(mesh)
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight)
+      renderer.setPixelRatio(window.devicePixelRatio)
+    })
 
-  renderer.render(scene, camera)
-
-  start.addEventListener('click', () => {
-    animeStart = true
-  })
-
-  const update = () => {
-    requestAnimationFrame(update)
-
-    if (animeStart === true) {
-      time += 0.1
-      material.uniforms.time.value = time
-      canvas.style.display = 'block'
-      material.uniforms.easing.value = Easing.easeInOutCubic(time * 0.1 + 1.0)
-      if (material.uniforms.easing.value > 5.0) {
-        animeStart = false
-        body.style.backgroundColor = 'white'
-        router.push('/specimen')
-      }
-    }
+    const geometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
+    const material = new THREE.RawShaderMaterial({
+      uniforms: {
+        time: { value: 0.0 },
+        rez: { type: 'v2', value: [canvas.width, canvas.height] },
+        waveColor: { type: 'v3', value: [1.0, 1.0, 1.0] },
+        easing: { value: Easing.easeInOutCubic(time * 0.1 + 1.0) }
+      },
+      vertexShader: wvert,
+      fragmentShader: wfrag
+    })
+    const mesh = new THREE.Mesh(geometry, material)
+    scene.add(mesh)
 
     renderer.render(scene, camera)
+
+    const update = () => {
+      requestAnimationFrame(update)
+
+      if (this.animeStart === true) {
+        time += 0.1
+        material.uniforms.time.value = time
+        canvas.style.display = 'block'
+        material.uniforms.easing.value = Easing.easeInOutCubic(time * 0.1 + 1.0)
+        if (material.uniforms.easing.value > 5.0) {
+          this.animeStart = false
+          body.style.backgroundColor = 'white'
+          router.push('/specimen')
+        }
+      }
+
+      renderer.render(scene, camera)
+    }
+    requestAnimationFrame(update)
   }
-  requestAnimationFrame(update)
 }
 
 </script>

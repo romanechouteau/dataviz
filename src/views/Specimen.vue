@@ -225,13 +225,13 @@ export default {
           targets: this.$refs.bonhomme,
           opacity: ['0', '1'],
           duration: 1000,
-          delay: 1000
+          delay: 500
         })
     }
   },
   methods: {
     bubbleClick (bubble) {
-      this.clicked = lowerFirst(bubble.replace('bubble', ''))
+      this.clicked = lowerFirst(bubble.replace('bubble', '').trim())
       this.parallax = false
       const left = this.$refs[bubble].offsetLeft
       const top = this.$refs[bubble].offsetTop
