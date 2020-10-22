@@ -4,11 +4,11 @@
     <router-view v-else-if="$route.fullPath === '/'" v-bind:data="data" v-bind:scanned="scanned" v-on:isScanned="scanned = true"/>
     <router-view v-else v-bind:data="data" v-on:bubbleClick="bubble = $event"/>
     <template v-if="bubble !== 'none'">
-      <div class="tinyBubble id" ref="bubbleId" v-if="/id/i.test(bubble)"><img src="./assets/id.svg" alt="Identité"></div>
+      <div class="tinyBubble identite" ref="bubbleIdentite" v-if="/identite/i.test(bubble)"><img src="./assets/id.svg" alt="Identité"></div>
       <div class="tinyBubble cine" ref="bubbleCine" v-else-if="/cine/i.test(bubble)"><img src="./assets/cine-series.svg" alt="Cinéma & séries"></div>
       <div class="tinyBubble streaming" ref="bubbleStreaming" v-else-if="/streaming/i.test(bubble)"><img src="./assets/streaming.svg" alt="Streaming"></div>
       <div class="tinyBubble techno" ref="bubbleTechno" v-else-if="/techno/i.test(bubble)"><img src="./assets/techno.svg" alt="Technologies"></div>
-      <div class="tinyBubble reseaux" ref="bubbleReseaux" v-else-if="/reseaux/i.test(bubble)"><img src="./assets/reseaux-sociaux.svg" alt="Réseaux sociaux"></div>
+      <div class="tinyBubble reseaux" ref="bubbleReseaux" v-else-if="/reseaux/i.test(bubble)"><img src="./assets/reseaux-sociaux.svg" alt="Relations"></div>
       <div class="tinyBubble autre" ref="bubbleAutre" v-else-if="/autre/i.test(bubble)"><img src="./assets/autres.svg" alt="Autre"></div>
     </template>
   </div>
@@ -44,6 +44,18 @@ export default {
  font-family: "KG Happy Solid";
  src: url("./assets/fonts/KGHAPPYSolid.ttf") format("truetype");
 }
+@font-face {
+ font-family: "Gilroy Regular";
+ src: url("./assets/fonts/Gilroy-Regular.ttf") format("truetype");
+}
+@font-face {
+ font-family: "Gilroy Semi Bold";
+ src: url("./assets/fonts/Gilroy-SemiBold.ttf") format("truetype");
+}
+@font-face {
+ font-family: "Gilroy Bold";
+ src: url("./assets/fonts/Gilroy-Bold.ttf") format("truetype");
+}
 *, body, html {
   box-sizing: border-box;
   margin: 0;
@@ -77,7 +89,7 @@ body {
 }
 .tinyBubble {
   width: 80px;
-  height: auto;
+  height: 80px;
   padding: 8px;
   position: absolute;
   right: 96px;

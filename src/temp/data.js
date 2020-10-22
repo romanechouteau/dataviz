@@ -1,10 +1,27 @@
 const json = require('./data.json')
-const { isString, upperFirst, startCase, toLower, isEmpty, compact, split, capitalize, countBy, forEach, map } = require('lodash')
+const { isString, upperFirst, startCase, toLower, isEmpty, compact, split, capitalize, countBy, forEach, map, orderBy, lowerCase, sortBy } = require('lodash')
 const fs = require('fs')
 
 const data = json['Réponses au formulaire 1']
 
 const total = data.length
+
+const categories = {
+  birth: 'identite',
+  animal: 'autre',
+  serie: 'cine',
+  film: 'cine',
+  language: 'identite',
+  food: 'autre',
+  social: 'reseaux',
+  video: 'streaming',
+  music: 'streaming',
+  computer: 'techno',
+  city: 'identite',
+  emoji: 'reseaux',
+  games: 'techno',
+  color: 'autre'
+}
 
 const newData = {
   birth: [],
@@ -41,20 +58,106 @@ const countData = {
 }
 
 const statData = {
-  birth: [],
-  animal: [],
-  serie: [],
-  film: [],
-  language: [],
-  food: [],
-  social: [],
-  video: [],
-  music: [],
-  computer: [],
-  city: [],
-  emoji: [],
-  games: [],
-  color: []
+  identite: {
+    name: 'Identité',
+    stats: {
+      birth: {
+        question: 'Année de naissance',
+        phrase: 'Il est né en',
+        values: []
+      },
+      language: {
+        question: 'Langues',
+        phrase: 'Il sait parler',
+        values: []
+      },
+      city: {
+        question: 'Ville d\'origine',
+        phrase: 'Sa ville d\'origine est',
+        values: []
+      }
+    }
+  },
+  autre: {
+    name: 'Autre',
+    stats: {
+      animal: {
+        question: 'Animal de compagnie',
+        phrase: 'Son animal de compagnie préféré est',
+        values: []
+      },
+      food: {
+        question: 'Commande de nourriture',
+        phrase: 'Il commande de la nourriture',
+        values: []
+      },
+      color: {
+        question: 'Couleur',
+        phrase: 'Sa couleur est',
+        values: []
+      }
+    }
+  },
+  cine: {
+    name: 'Cinéma & séries',
+    stats: {
+      serie: {
+        question: 'Série',
+        phrase: 'Sa série préférée est',
+        values: []
+      },
+      film: {
+        question: 'Genre cinématographique',
+        phrase: 'Le genre cinématographique qu\'il préfère est',
+        values: []
+      }
+    }
+  },
+  streaming: {
+    name: 'Streaming',
+    stats: {
+      video: {
+        question: 'Vidéos',
+        phrase: 'La plateforme de streaming vidéo qu\'il utilise le plus est',
+        values: []
+      },
+      music: {
+        question: 'Musique',
+        phrase: 'Sa plateforme de streaming de musique préférée est',
+        values: []
+      }
+    }
+  },
+  techno: {
+    name: 'Technologie',
+    stats: {
+      computer: {
+        question: 'Marque d\'ordinateur',
+        phrase: 'Sa marque d’ordinateur fétiche est',
+        values: []
+      },
+      games: {
+        question: 'Console de jeux vidéos',
+        phrase: 'Sa console de jeux vidéo préférée est',
+        values: []
+      }
+    }
+  },
+  reseaux: {
+    name: 'Relations',
+    stats: {
+      social: {
+        question: 'Réseaux sociaux',
+        phrase: 'Le réseau social qu’il utilise le plus est',
+        values: []
+      },
+      emoji: {
+        question: 'Emojis',
+        phrase: 'Son emoji préféré est',
+        values: []
+      }
+    }
+  }
 }
 
 const properties = ['birth', 'animal', 'serie', 'film', 'language', 'food', 'social', 'video', 'music', 'computer', 'city', 'emoji', 'games', 'color']
@@ -100,7 +203,7 @@ data.forEach((value, id) => {
 
   let language = value['Quelles langues sais-tu parler ?'] || null
   let templanguage = []
-  language = language.replace(/\(et anglais très basique\)/gi, 'et Anglais').replace(/Un poquito espanol/gi, 'Espagnol').replace(/La seule qui vaille le coup/gi, 'Français').replace(/Le français de France/gi, 'Français')
+  language = language.replace('Francais', 'Français').replace(/\(et anglais très basique\)/gi, 'et Anglais').replace(/Un poquito espanol/gi, 'Espagnol').replace(/La seule qui vaille le coup/gi, 'Français').replace(/Le français de France/gi, 'Français')
   if (/\d+/g.test(language)) {
   } else if (/,/g.test(language) && /\bet\b/g.test(language)) {
     templanguage = split(language, 'et').join(',').split(',')
@@ -157,17 +260,52 @@ data.forEach((value, id) => {
     newData[val].push({ value: values[val], id })
   })
 })
-// console.log(newData)
+
+forEach(newData.language, (entry, i) => {
+  newData.language[i].value = sortBy(entry.value)
+})
+
 properties.forEach(val => {
   countData[val] = countBy(newData[val], 'value')
 })
 
 forEach(countData, (questions, id) => {
-  statData[id] = map(questions, (count, answer) => {
-    return { [answer]: count / total * 100 }
-  })
+  statData[categories[id]].stats[id].values = orderBy(map(questions, (count, answer) => {
+    let display
+    if (answer === null) {
+      display = '/'
+    } else if (id === 'birth' || id === 'city' || id === 'serie' || id === 'film' || id === 'computer' || id === 'social' || id === 'emoji' || id === 'music' || id === 'video') {
+      display = answer
+    } else if (id === 'animal') {
+      if (answer !== 'Loutre' && answer !== 'Chèvre' && answer !== 'Vanina') {
+        display = 'le ' + lowerCase(answer)
+      } else {
+        display = 'la ' + lowerCase(answer)
+      }
+    } else if (id === 'language') {
+      const temp = answer.split(',')
+      display = temp[0]
+      for (let i = 1; i < temp.length; i++) {
+        display += i < temp.length - 1 ? ', ' + temp[i] : ' et ' + temp[i]
+      }
+    } else if (id === 'food') {
+      if (answer !== 'Jamais') {
+        display = answer + ' par semaine'
+      } else {
+        display = answer
+      }
+    } else if (id === 'games') {
+      if (answer !== 'PC') {
+        display = 'la ' + answer
+      } else {
+        display = 'le ' + answer
+      }
+    } else if (id === 'color') {
+      display = 'le ' + lowerCase(answer)
+    }
+    return { name: answer, value: count / total * 100, display: display }
+  }), 'value', 'desc')
 })
-console.log(statData)
 
 fs.writeFile('./src/assets/data.json', JSON.stringify(statData), (err) => {
   if (err) throw err
