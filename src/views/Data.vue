@@ -1,29 +1,29 @@
 <template>
   <div class="data">
     <nav>
-      <div v-on:click="backClick" class="retour">
+      <div v-on:click="backClick" class="retour" ref="retour">
           <svg id="keyboard_backspace-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path id="Tracé_374" data-name="Tracé 374" d="M0,0H24V24H0Z" fill="none"/>
             <path id="Tracé_375" data-name="Tracé 375" d="M21,11H6.83l3.58-3.59L9,6,3,12l6,6,1.41-1.41L6.83,13H21Z" fill="#fff"/>
           </svg>
           <span>Voir le spécimen</span>
         </div>
-      <div class="questions">
-        <span v-for="(stat, key) in data[id].stats" v-bind:key="key" :class="[key === activeStat ? 'active' : '', 'link']" v-on:click="activeStat = key">
+      <div class="questions" ref="questions">
+        <span v-for="(stat, key) in data[id].stats" v-bind:key="key" :class="[key === activeStat ? 'active' : '', 'link']" v-on:click="questionClick(key)">
           <span>{{ stat.question }}</span>
         </span>
       </div>
-      <div class="category">
+      <div class="category" ref="category">
         <span>{{ data[id].name }}</span>
         <div class="bubblePlaceholder"></div>
       </div>
     </nav>
     <div class="dataviz">
-      <div class="phrase">{{ data[id].stats[activeStat].phrase }} {{ data[id].stats[activeStat].values[0].display }}.</div>
-      <Emoji v-if="activeStat === 'emoji'" v-bind:data="data[id].stats[activeStat]" />
-      <Social v-if="activeStat === 'social'" v-bind:data="data[id].stats[activeStat]" />
-      <Computer v-if="activeStat === 'computer'" v-bind:data="data[id].stats[activeStat]" />
-      <Games v-if="activeStat === 'games'" v-bind:data="data[id].stats[activeStat]" />
+      <div class="phrase" ref="phrase">{{ data[id].stats[activeStat].phrase }} {{ data[id].stats[activeStat].values[0].display }}.</div>
+      <Emoji v-if="activeStat === 'emoji'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
+      <Social v-if="activeStat === 'social'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
+      <Computer v-if="activeStat === 'computer'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
+      <Games v-if="activeStat === 'games'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
     </div>
     <canvas class='main-canvas'></canvas>
   </div>
@@ -46,7 +46,8 @@ export default {
   data () {
     return {
       animeStart: false,
-      activeStat: keys(this.$props.data[this.$props.id].stats)[0]
+      activeStat: keys(this.$props.data[this.$props.id].stats)[0],
+      animeData: false
     }
   },
   props: {
@@ -114,11 +115,29 @@ export default {
       renderer.render(scene, camera)
     }
     requestAnimationFrame(update)
+
+    this
+      .$anime
+      .timeline()
+      .add({
+        targets: [this.$refs.category, this.$refs.questions, this.$refs.retour, this.$refs.phrase],
+        opacity: [0, 1],
+        duration: 500,
+        delay: this.$anime.stagger(200, { start: 500 }),
+        easing: 'easeInOutCubic',
+        complete: () => {
+          this.animeData = true
+        }
+      })
   },
   methods: {
     backClick: function (e) {
       e.preventDefault()
       this.animeStart = true
+    },
+    questionClick: function (key) {
+      this.activeStat = key
+      this.animeData = true
     }
   },
   components: {

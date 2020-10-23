@@ -1,5 +1,5 @@
 <template>
-  <div class="computer-dataviz">
+  <div class="computer-dataviz" ref="computer">
     <div class="screen">
       <div v-for="(answer, key) in data.values" v-bind:key="key" :ref="answer.name" :class="[key % 2 === 0 ? 'left' : 'right', 'block']" :style="{ height: `${answer.value}%`, 'background-color': colors[answer.name]}">
         <span class="percent" v-if="key < 2">{{ Math.round(answer.value * 100) / 100 }}%</span>
@@ -17,7 +17,8 @@ const { lowerCase, forEach } = require('lodash')
 export default {
   name: 'Computer',
   props: {
-    data: Object
+    data: Object,
+    animeData: Boolean
   },
   data () {
     return {
@@ -39,6 +40,30 @@ export default {
         ids[answer.name] = lowerCase(answer.name)
       })
       return ids
+    }
+  },
+  watch: {
+    animeData: function (newVal, oldVal) {
+      if (newVal === true && this.$refs) {
+        this
+          .$anime
+          .timeline()
+          .add({
+            targets: [this.$refs.computer],
+            opacity: [0, 1],
+            duration: 500,
+            delay: this.$anime.stagger(200),
+            easing: 'easeInOutCubic',
+            complete: () => {
+              this.animeData = true
+            }
+          })
+      }
+    }
+  },
+  mounted () {
+    if (this.$props.animeData === false) {
+      this.$refs.computer.style.opacity = 0
     }
   }
 }

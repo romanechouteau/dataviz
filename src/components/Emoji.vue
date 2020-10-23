@@ -1,5 +1,5 @@
 <template>
-  <div class="emoji-dataviz">
+  <div class="emoji-dataviz" ref="emoji">
       <vue-word-cloud
         :words="wordCLoudList"
         font-family="Gilroy Regular"
@@ -16,7 +16,8 @@ const { map } = require('lodash')
 export default {
   name: 'Emoji',
   props: {
-    data: Object
+    data: Object,
+    animeData: Boolean
   },
   computed: {
     wordCLoudList: function () {
@@ -26,8 +27,32 @@ export default {
       })
     }
   },
+  watch: {
+    animeData: function (newVal, oldVal) {
+      if (newVal === true && this.$refs) {
+        this
+          .$anime
+          .timeline()
+          .add({
+            targets: [this.$refs.emoji],
+            opacity: [0, 1],
+            duration: 500,
+            delay: this.$anime.stagger(200),
+            easing: 'easeInOutCubic',
+            complete: () => {
+              this.animeData = true
+            }
+          })
+      }
+    }
+  },
   components: {
     VueWordCloud
+  },
+  mounted () {
+    if (this.$props.animeData === false) {
+      this.$refs.emoji.style.opacity = 0
+    }
   }
 }
 </script>

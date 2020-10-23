@@ -1,5 +1,5 @@
 <template>
-  <div class="social-dataviz">
+  <div class="social-dataviz" ref="social">
   <div v-for="(answer, key) in lessBlocks" v-bind:key="key" :ref="answer.name" :class="[key < lessBlocks.length - 1 ? 'block' : 'blockWrapper', answer.name]" :style="key < lessBlocks.length - 1 ? { height: `calc(${size[answer.name] * 100}%)`, width: `calc(${size[answer.name]} * 30vw)`, 'background-color': colors[answer.name]} : {height: `calc(${size[answer.name] * 100}%)`}">
       <div v-if="key === lessBlocks.length - 1" class="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[answer.name]}"><img :src="require(`../assets/social/${idSocial[answer.name]}.svg`)" :alt="answer.name"><span>{{ answer.value }}%</span></div>
       <div v-if="key === lessBlocks.length - 1" class="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[data.values[data.values.length - 1].name]}"><img :src="require(`../assets/social/${idSocial[data.values[data.values.length - 1].name]}.svg`)" :alt="data.values[data.values.length - 1].name"><span>{{ data.values[data.values.length - 1].value }}%</span></div>
@@ -17,7 +17,8 @@ const { lowerFirst, forEach, slice } = require('lodash')
 export default {
   name: 'Social',
   props: {
-    data: Object
+    data: Object,
+    animeData: Boolean
   },
   data () {
     return {
@@ -47,6 +48,30 @@ export default {
     },
     lessBlocks: function () {
       return slice(this.$props.data.values, 0, this.$props.data.values.length - 1)
+    }
+  },
+  watch: {
+    animeData: function (newVal, oldVal) {
+      if (newVal === true && this.$refs) {
+        this
+          .$anime
+          .timeline()
+          .add({
+            targets: [this.$refs.social],
+            opacity: [0, 1],
+            duration: 500,
+            delay: this.$anime.stagger(200),
+            easing: 'easeInOutCubic',
+            complete: () => {
+              this.animeData = true
+            }
+          })
+      }
+    }
+  },
+  mounted () {
+    if (this.$props.animeData === false) {
+      this.$refs.social.style.opacity = 0
     }
   }
 }

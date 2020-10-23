@@ -1,5 +1,5 @@
 <template>
-  <div class="games-dataviz">
+  <div class="games-dataviz" ref="games">
     <div v-for="(answer, key) in consoles" v-bind:key="key" :ref="answer.name" :class="'line'">
       <div class="img"><img :src="require(`../assets/games/${idGames[answer.name]}.png`)" :alt="answer.name"></div>
       <div class="barWrapper"><div class="bar" :style="{ width: `${size[answer.name]}%`, 'background-color': colors[answer.name]}"><div class="percent" :style="{'color': colors[answer.name]}">{{ answer.value }}%</div></div><div class="percent-placeholder"></div></div>
@@ -13,7 +13,8 @@ const { lowerCase, forEach, filter } = require('lodash')
 export default {
   name: 'Games',
   props: {
-    data: Object
+    data: Object,
+    animeData: Boolean
   },
   data () {
     return {
@@ -46,6 +47,30 @@ export default {
         sizes[answer.name] = answer.value / this.consoles[0].value * 100
       })
       return sizes
+    }
+  },
+  watch: {
+    animeData: function (newVal, oldVal) {
+      if (newVal === true && this.$refs) {
+        this
+          .$anime
+          .timeline()
+          .add({
+            targets: [this.$refs.games],
+            opacity: [0, 1],
+            duration: 500,
+            delay: this.$anime.stagger(200),
+            easing: 'easeInOutCubic',
+            complete: () => {
+              this.animeData = true
+            }
+          })
+      }
+    }
+  },
+  mounted () {
+    if (this.$props.animeData === false) {
+      this.$refs.games.style.opacity = 0
     }
   }
 }
