@@ -86,8 +86,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  align-content: space-evenly;
-  margin: auto;
+  align-content: flex-start;
   .block {
     color: rgba(0,0,0,0.7);
     text-align: left;
