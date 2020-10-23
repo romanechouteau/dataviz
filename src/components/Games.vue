@@ -3,7 +3,6 @@
     <div v-for="(answer, key) in consoles" v-bind:key="key" :ref="answer.name" :class="'line'">
       <div class="img"><img :src="require(`../assets/games/${idGames[answer.name]}.png`)" :alt="answer.name" ref="imgBar"></div>
       <div class="barWrapper"><div class="bar" ref="bar" :id="answer.name" :style="{ width: 0, 'background-color': colors[answer.name]}"><div class="percent" ref="percent" :style="{'color': colors[answer.name]}">{{ answer.value }}%</div></div><div class="percent-placeholder"></div></div>
-      <!-- v-anime="{ width: `${size[answer.name]}%`, duration: 1500, delay: 500 }" -->
     </div>
   </div>
 </template>

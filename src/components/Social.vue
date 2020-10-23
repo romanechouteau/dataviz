@@ -1,8 +1,8 @@
 <template>
   <div class="social-dataviz" ref="social">
-  <div v-for="(answer, key) in lessBlocks" v-bind:key="key" :ref="answer.name" :class="[key < lessBlocks.length - 1 ? 'block' : 'blockWrapper', answer.name]" :style="key < lessBlocks.length - 1 ? { height: `calc(${size[answer.name]} * 30vw)`, width: `calc(${size[answer.name]} * 30vw)`, 'background-color': colors[answer.name]} : {height: `calc(${size[answer.name]} * 30vw)`}">
-      <div v-if="key === lessBlocks.length - 1" class="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[answer.name]}"><img :src="require(`../assets/social/${idSocial[answer.name]}.svg`)" :alt="answer.name"><span>{{ answer.value }}%</span></div>
-      <div v-if="key === lessBlocks.length - 1" class="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[data.values[data.values.length - 1].name]}"><img :src="require(`../assets/social/${idSocial[data.values[data.values.length - 1].name]}.svg`)" :alt="data.values[data.values.length - 1].name"><span>{{ data.values[data.values.length - 1].value }}%</span></div>
+  <div v-for="(answer, key) in lessBlocks" v-bind:key="key" :ref="key < lessBlocks.length - 1 ? 'block' : ''" :class="[key < lessBlocks.length - 1 ? 'block' : 'blockWrapper', answer.name]" :style="key < lessBlocks.length - 1 ? { height: `calc(${size[answer.name]} * 30vw)`, width: `calc(${size[answer.name]} * 30vw)`, 'background-color': colors[answer.name]} : {height: `calc(${size[answer.name]} * 30vw)`}">
+      <div v-if="key === lessBlocks.length - 1" class="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[answer.name]}" ref="block"><img :src="require(`../assets/social/${idSocial[answer.name]}.svg`)" :alt="answer.name"><span>{{ answer.value }}%</span></div>
+      <div v-if="key === lessBlocks.length - 1" class="block" ref="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[data.values[data.values.length - 1].name]}"><img :src="require(`../assets/social/${idSocial[data.values[data.values.length - 1].name]}.svg`)" :alt="data.values[data.values.length - 1].name"><span>{{ data.values[data.values.length - 1].value }}%</span></div>
       <div v-else>
         <span>{{ answer.value }}%</span>
         <img :src="require(`../assets/social/${idSocial[answer.name]}.svg`)" :alt="answer.name">
@@ -54,11 +54,11 @@ export default {
       .$anime
       .timeline()
       .add({
-        targets: [this.$refs.social],
-        opacity: [0, 1],
+        targets: [this.$refs.block],
+        scale: [0, 1],
         duration: 500,
-        delay: 500,
-        easing: 'easeInOutCubic'
+        delay: this.$anime.stagger(200, { start: 500 }),
+        easing: 'easeOutBounce'
       })
   }
 }
