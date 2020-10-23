@@ -230,4 +230,15 @@ export default {
     }
   }
 }
+@media (min-width: 2000px) {
+  .home {
+    .title {
+      font-size: 1.7rem;
+    }
+    .start {
+      font-size: 1.7rem;
+      padding: 24px 96px;
+    }
+  }
+}
 </style>

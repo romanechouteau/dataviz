@@ -52,7 +52,8 @@ export default {
       animeStart: false,
       finalAnim: false,
       corpsWidth: 0,
-      clicked: 'none'
+      clicked: 'none',
+      imgWidth: window.innerWidth < 2100 ? '90%' : '150%'
     }
   },
   props: {
@@ -159,6 +160,7 @@ export default {
       this.windowHeight = window.innerHeight
       renderer.setSize(window.innerWidth, window.innerHeight)
       renderer.setPixelRatio(window.devicePixelRatio)
+      this.imgWidth = this.windowWidth < 2100 ? '90%' : '150%'
     })
     if (this.$props.scanned === false) {
       this
@@ -225,7 +227,7 @@ export default {
         }, '-=500')
         .add({
           targets: filter(this.$refs, (val, key) => /bubble.*Img/gi.test(key)),
-          width: ['0%', '90%'],
+          width: ['0%', this.imgWidth],
           height: ['0%', 'auto'],
           duration: 800,
           delay: this.$anime.stagger(200, { start: 200 }),
@@ -242,7 +244,7 @@ export default {
       this.$refs.scanner.style.height = 0
       this.$refs.scanner.style.y = 1389
       filter(this.$refs, (val, key) => /bubble.*Img/gi.test(key)).forEach((val) => {
-        val.style.width = '90%'
+        val.style.width = this.imgWidth
         val.style.height = 'auto'
       })
       this
@@ -386,6 +388,7 @@ export default {
       --rightReseaux: 10%;
       --bottomAutre: 10%;
       --rightAutre: 20%;
+      --imgWidth: 90%;
 
       width: 10vw;
       height: 10vw;
@@ -402,7 +405,7 @@ export default {
       cursor: pointer;
 
       & img {
-        width: 90%;
+        // width: var(--imgWidth);
         transition: transform 0.4s ease;
 
         &:hover {
@@ -492,4 +495,13 @@ export default {
     }
   }
 }
+// @media (min-width: 2100px) {
+//   .specimen {
+//     & .bonhomme {
+//       & .bubble {
+//         --imgWidth: 150%;
+//       }
+//     }
+//   }
+// }
 </style>
