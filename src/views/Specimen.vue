@@ -495,13 +495,4 @@ export default {
     }
   }
 }
-// @media (min-width: 2100px) {
-//   .specimen {
-//     & .bonhomme {
-//       & .bubble {
-//         --imgWidth: 150%;
-//       }
-//     }
-//   }
-// }
 </style>

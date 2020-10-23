@@ -253,6 +253,35 @@ export default {
   }
 }
 
+@media (min-width: 2100px) {
+  .data {
+    font-size: 1.7rem;
+
+    & nav {
+      font-size: 1.3rem;
+
+      & .category .bubblePlaceholder {
+        width: 120px;
+      }
+
+      & .questions {
+        & .link {
+          & span::before {
+            height: 2px;
+          }
+        }
+      }
+    }
+
+    .dataviz {
+      margin-top: 32px;
+      & .phrase {
+        font-size: 3rem;
+      }
+    }
+  }
+}
+
 @keyframes arrow-back {
   0% {
     transform: translateX(0);

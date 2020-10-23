@@ -109,4 +109,10 @@ body {
     top: 4vh;
   }
 }
+
+@media (min-width: 2100px) {
+  .tinyBubble img {
+    width: 150%;
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="social-dataviz" ref="social">
-  <div v-for="(answer, key) in lessBlocks" v-bind:key="key" :ref="answer.name" :class="[key < lessBlocks.length - 1 ? 'block' : 'blockWrapper', answer.name]" :style="key < lessBlocks.length - 1 ? { height: `calc(${size[answer.name] * 100}%)`, width: `calc(${size[answer.name]} * 30vw)`, 'background-color': colors[answer.name]} : {height: `calc(${size[answer.name] * 100}%)`}">
+  <div v-for="(answer, key) in lessBlocks" v-bind:key="key" :ref="answer.name" :class="[key < lessBlocks.length - 1 ? 'block' : 'blockWrapper', answer.name]" :style="key < lessBlocks.length - 1 ? { height: `calc(${size[answer.name]} * 30vw)`, width: `calc(${size[answer.name]} * 30vw)`, 'background-color': colors[answer.name]} : {height: `calc(${size[answer.name]} * 30vw)`}">
       <div v-if="key === lessBlocks.length - 1" class="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[answer.name]}"><img :src="require(`../assets/social/${idSocial[answer.name]}.svg`)" :alt="answer.name"><span>{{ answer.value }}%</span></div>
       <div v-if="key === lessBlocks.length - 1" class="block" :style="{ height: `100%`, width: `calc(${size[data.values[data.values.length - 1].name]} * 30vw)`, 'background-color': colors[data.values[data.values.length - 1].name]}"><img :src="require(`../assets/social/${idSocial[data.values[data.values.length - 1].name]}.svg`)" :alt="data.values[data.values.length - 1].name"><span>{{ data.values[data.values.length - 1].value }}%</span></div>
       <div v-else>
@@ -80,13 +80,14 @@ export default {
 <style scoped lang="scss">
 .social-dataviz {
   position: relative;
-  height: 100%;
+  height: calc(35vw + 48px);
+  padding-top: 48px;
   width: 100%;
-  padding: 48px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-content: space-evenly;
+  margin: auto;
   .block {
     color: rgba(0,0,0,0.7);
     text-align: left;

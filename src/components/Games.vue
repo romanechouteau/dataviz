@@ -81,7 +81,6 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
-  max-width: 1300px;
   padding-top: 48px;
   margin: auto;
   display: flex;
@@ -110,14 +109,14 @@ export default {
 
     & .barWrapper {
       width: 100%;
-      height: 16px;
+      height: 25%;
       margin: 16px 0 16px 48px;
       display: flex;
       flex-direction: row;
 
       & .bar {
         height: 100%;
-        border-radius: 8px;
+        border-radius: 24px;
         position: relative;
       }
 

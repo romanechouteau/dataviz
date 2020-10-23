@@ -82,9 +82,8 @@ export default {
 
   & .screen {
     position: relative;
-    width: 70%;
-    max-width: 880px;
-    height: 100%;
+    width: 85vh;
+    height: 55vh;
     border-radius: 16px;
     border: 6px solid black;
     color: rgba(0, 0, 0, 0.7);
@@ -207,6 +206,15 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     background-image: linear-gradient(to bottom right, #808080, #cecece);
+  }
+}
+
+@media (min-width: 2100px) {
+  .computer-dataviz {
+    & .screen {
+      width: 95vh;
+      height: 65vh;
+    }
   }
 }
 </style>

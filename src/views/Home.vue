@@ -210,6 +210,18 @@ export default {
     background-color: white;
     border-radius: 48px;
     text-transform: uppercase;
+    bottom: 0;
+    left: 0;
+    transition: all 0.5s ease;
+
+    &:hover {
+      transform: translate(-3%, 14%);
+
+      .button-shadow {
+        bottom: 0;
+        left: 0;
+      }
+    }
 
     .button-shadow {
       z-index: 1;
@@ -217,7 +229,7 @@ export default {
       bottom: -14%;
       left: -3%;
       width: 97%;
-      transition: all 1s ease;
+      transition: all 0.5s ease;
       fill:white;
     }
   }
