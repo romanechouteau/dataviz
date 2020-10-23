@@ -238,8 +238,6 @@ export default {
         })
     } else {
       body.style.backgroundColor = 'white'
-      this.$refs.bonhomme.style.left = 0
-      this.$refs.bonhomme.style.opacity = 0
       this.$refs.rayon.style.opacity = 0
       this.$refs.scanner.style.height = 0
       this.$refs.scanner.style.y = 1389
@@ -250,9 +248,9 @@ export default {
       this
         .$anime({
           targets: this.$refs.bonhomme,
-          opacity: ['0', '1'],
-          duration: 1000,
-          delay: 500
+          left: [0 - this.$refs.bonhomme.offsetWidth, 0],
+          duration: 1500,
+          easing: 'easeInOutCubic'
         })
     }
   },
@@ -275,15 +273,21 @@ export default {
         .$anime
         .timeline()
         .add({
-          targets: [this.$refs.corps, this.$refs.ombre, filter(this.$refs, (val, key) => /bubble.*Img/g.test(key) && !thisBubble.test(key))],
-          opacity: [1, 0],
-          duration: 500,
+          targets: [filter(this.$refs, (val, key) => /bubble.*Img/g.test(key) && !thisBubble.test(key))],
+          translateX: '-100vw',
+          duration: 1500,
+          easing: 'easeInOutCubic'
+        })
+        .add({
+          targets: [this.$refs.corps, this.$refs.ombre],
+          left: 0 - this.windowWidth,
+          duration: 1500,
           easing: 'easeInOutCubic',
           complete: () => {
             this.finalAnim = true
             this.animeStart = true
           }
-        })
+        }, '-= 1500')
         .add({
           targets: this.$refs[bubble],
           translateX: this.windowWidth > 640 ? this.windowWidth - left - 96 - 80 : this.windowWidth - left - (this.windowWidth * 0.05) - 80,
