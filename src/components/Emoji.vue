@@ -9,7 +9,7 @@
       <template slot-scope="{text, weight}">
         <div :title="weight" class="emoji">
           {{ text }}
-          <div class="percent" :style="{ position: 'absolute', top: '65%', left: `${weight * 0.5}%`, 'font-size': `${weight * 0.3}rem`, 'mix-blend-mode': 'difference' }">{{ weight }}%</div>
+          <div class="percent" :style="{ position: 'absolute', top: '65%', left: `${weight * 0.5}%`, 'font-size': `${windowWidth < 2100 ? weight * 0.3 : weight * 0.6}rem`, 'mix-blend-mode': 'difference' }">{{ weight }}%</div>
         </div>
       </template>
       </vue-word-cloud>
@@ -22,6 +22,11 @@ const { map } = require('lodash')
 
 export default {
   name: 'Emoji',
+  data () {
+    return {
+      windowWidth: window.innerWidth
+    }
+  },
   props: {
     data: Object
   },
@@ -37,6 +42,9 @@ export default {
     VueWordCloud
   },
   mounted () {
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth
+    })
     this
       .$anime
       .timeline()
