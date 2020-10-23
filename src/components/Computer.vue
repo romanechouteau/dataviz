@@ -1,9 +1,9 @@
 <template>
   <div class="computer-dataviz" ref="computer">
     <div class="screen">
-      <div v-for="(answer, key) in data.values" v-bind:key="key" :ref="answer.name" :class="[key % 2 === 0 ? 'left' : 'right', 'block']" :style="{ height: `${answer.value}%`, 'background-color': colors[answer.name]}">
+      <div v-for="(answer, key) in data.values" v-bind:key="key" ref="block" :class="[key % 2 === 0 ? 'left' : 'right', 'block']" :style="{ height: `${answer.value}%`, 'background-color': colors[answer.name]}">
         <span class="percent" v-if="key < 2">{{ Math.round(answer.value * 100) / 100 }}%</span>
-        <div v-if="key < 2" class="brand"><div class="trait"></div><img :src="require(`../assets/computer/${idComputer[answer.name]}.svg`)" :alt="answer.name"></div>
+        <div ref="brand" v-if="key < 2" class="brand"><div class="trait"></div><img :src="require(`../assets/computer/${idComputer[answer.name]}.svg`)" :alt="answer.name"></div>
         <div v-else class="brand small"><div class="trait"><div class="percent">{{ Math.round(answer.value * 100) / 100 }}%</div></div><img v-if="answer.name !== 'Fait maison'" :src="require(`../assets/computer/${idComputer[answer.name]}.svg`)" :alt="answer.name"><span class="diy" v-else>Fait maison</span></div>
         </div>
     </div>
@@ -48,11 +48,24 @@ export default {
       .timeline()
       .add({
         targets: [this.$refs.computer],
-        opacity: [0, 1],
+        translateY: ['100%', 0],
         duration: 500,
-        delay: 500,
         easing: 'easeInOutCubic'
       })
+      .add({
+        targets: [this.$refs.block],
+        scaleY: [0, 1],
+        duration: 800,
+        delay: this.$anime.stagger(200, { direction: 'reverse' }),
+        easing: 'easeOutBounce'
+      })
+      .add({
+        targets: [this.$refs.brand],
+        opacity: [0, 1],
+        duration: 500,
+        delay: this.$anime.stagger(200),
+        easing: 'easeInOutCubic'
+      }, '-=500')
   }
 }
 </script>
@@ -77,10 +90,12 @@ export default {
     border: 6px solid black;
     color: rgba(0, 0, 0, 0.7);
     box-shadow: 0px 4px 48px rgba(0, 0, 0, 0.8);
+    background-color: black;
 
     & .block {
       position: relative;
       border-top: 3px solid black;
+      transform-origin: bottom;
 
       &:hover .brand.small {
         opacity: 1;
