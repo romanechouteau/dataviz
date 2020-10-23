@@ -15,7 +15,7 @@
 const { lowerCase, forEach } = require('lodash')
 
 export default {
-  name: 'Social',
+  name: 'Computer',
   props: {
     data: Object
   },

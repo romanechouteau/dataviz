@@ -23,6 +23,7 @@
       <Emoji v-if="activeStat === 'emoji'" v-bind:data="data[id].stats[activeStat]" />
       <Social v-if="activeStat === 'social'" v-bind:data="data[id].stats[activeStat]" />
       <Computer v-if="activeStat === 'computer'" v-bind:data="data[id].stats[activeStat]" />
+      <Games v-if="activeStat === 'games'" v-bind:data="data[id].stats[activeStat]" />
     </div>
     <canvas class='main-canvas'></canvas>
   </div>
@@ -32,6 +33,7 @@
 import Emoji from '../components/Emoji.vue'
 import Social from '../components/Social.vue'
 import Computer from '../components/Computer.vue'
+import Games from '../components/Games.vue'
 import router from '../router'
 import * as THREE from 'three'
 import wfrag from '../shaders/wave-reverse.frag'
@@ -122,7 +124,8 @@ export default {
   components: {
     Emoji,
     Social,
-    Computer
+    Computer,
+    Games
   }
 }
 </script>
