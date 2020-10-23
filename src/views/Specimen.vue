@@ -275,21 +275,15 @@ export default {
         .$anime
         .timeline()
         .add({
-          targets: [filter(this.$refs, (val, key) => /bubble.*Img/g.test(key) && !thisBubble.test(key))],
-          translateX: '-100vw',
-          duration: 1500,
-          easing: 'easeInOutCubic'
-        })
-        .add({
-          targets: [this.$refs.corps, this.$refs.ombre],
-          left: 0 - this.windowWidth,
-          duration: 1500,
+          targets: [this.$refs.corps, this.$refs.ombre, filter(this.$refs, (val, key) => /bubble.*Img/g.test(key) && !thisBubble.test(key))],
+          opacity: [1, 0],
+          duration: 500,
           easing: 'easeInOutCubic',
           complete: () => {
             this.finalAnim = true
             this.animeStart = true
           }
-        }, '-= 1500')
+        })
         .add({
           targets: this.$refs[bubble],
           translateX: this.windowWidth > 640 ? this.windowWidth - left - 96 - 80 : this.windowWidth - left - (this.windowWidth * 0.05) - 80,
