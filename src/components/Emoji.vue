@@ -2,10 +2,17 @@
   <div class="emoji-dataviz" ref="emoji">
       <vue-word-cloud
         :words="wordCLoudList"
-        font-family="Gilroy Regular"
+        font-family="Gilroy Bold"
         color="white"
         :spacing="2"
-      />
+      >
+      <template slot-scope="{text, weight}">
+        <div :title="weight" class="emoji">
+          {{ text }}
+          <div class="percent" :style="{ position: 'absolute', top: '65%', left: `${weight * 0.5}%`, 'font-size': `${weight * 0.3}rem`, 'mix-blend-mode': 'difference' }">{{ weight }}%</div>
+        </div>
+      </template>
+      </vue-word-cloud>
   </div>
 </template>
 
@@ -53,6 +60,17 @@ export default {
   .wordcloud {
     width: 100%;
     height: 100%;
+
+    & .emoji {
+      display: block;
+      position: relative;
+      & .percent {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
   }
 }
 </style>
