@@ -1,5 +1,5 @@
 <template>
-  <div class="dataviz-comp">
+  <div class="emoji-dataviz">
       <vue-word-cloud
         :words="wordCLoudList"
         font-family="Gilroy Regular"
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.dataviz-comp {
+.emoji-dataviz {
   position: relative;
   height: 100%;
   width: 100%;

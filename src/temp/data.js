@@ -187,7 +187,7 @@ data.forEach((value, id) => {
 
   let computer = value['Quelle est la marque de votre ordinateur ?'] || null
   if (/fait main/gi.test(computer)) {
-    computer = 'DIY'
+    computer = 'Fait maison'
   } else if (/Mac/gi.test(computer)) {
     computer = 'Apple'
   }

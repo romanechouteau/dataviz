@@ -21,6 +21,8 @@
     <div class="dataviz">
       <div class="phrase">{{ data[id].stats[activeStat].phrase }} {{ data[id].stats[activeStat].values[0].display }}.</div>
       <Emoji v-if="activeStat === 'emoji'" v-bind:data="data[id].stats[activeStat]" />
+      <Social v-if="activeStat === 'social'" v-bind:data="data[id].stats[activeStat]" />
+      <Computer v-if="activeStat === 'computer'" v-bind:data="data[id].stats[activeStat]" />
     </div>
     <canvas class='main-canvas'></canvas>
   </div>
@@ -28,6 +30,8 @@
 
 <script>
 import Emoji from '../components/Emoji.vue'
+import Social from '../components/Social.vue'
+import Computer from '../components/Computer.vue'
 import router from '../router'
 import * as THREE from 'three'
 import wfrag from '../shaders/wave-reverse.frag'
@@ -116,7 +120,9 @@ export default {
     }
   },
   components: {
-    Emoji
+    Emoji,
+    Social,
+    Computer
   }
 }
 </script>
