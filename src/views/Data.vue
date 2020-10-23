@@ -20,10 +20,10 @@
     </nav>
     <div class="dataviz">
       <div class="phrase" ref="phrase">{{ data[id].stats[activeStat].phrase }} {{ data[id].stats[activeStat].values[0].display }}.</div>
-      <Emoji v-if="activeStat === 'emoji'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
-      <Social v-if="activeStat === 'social'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
-      <Computer v-if="activeStat === 'computer'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
-      <Games v-if="activeStat === 'games'" v-bind:data="data[id].stats[activeStat]" v-bind:animeData="animeData" />
+      <Emoji v-if="activeStat === 'emoji'" v-bind:data="data[id].stats[activeStat]"/>
+      <Social v-if="activeStat === 'social'" v-bind:data="data[id].stats[activeStat]"/>
+      <Computer v-if="activeStat === 'computer'" v-bind:data="data[id].stats[activeStat]"/>
+      <Games v-if="activeStat === 'games'" v-bind:data="data[id].stats[activeStat]"/>
     </div>
     <canvas class='main-canvas'></canvas>
   </div>
@@ -46,8 +46,7 @@ export default {
   data () {
     return {
       animeStart: false,
-      activeStat: keys(this.$props.data[this.$props.id].stats)[0],
-      animeData: false
+      activeStat: keys(this.$props.data[this.$props.id].stats)[0]
     }
   },
   props: {
@@ -124,10 +123,7 @@ export default {
         opacity: [0, 1],
         duration: 500,
         delay: this.$anime.stagger(200, { start: 500 }),
-        easing: 'easeInOutCubic',
-        complete: () => {
-          this.animeData = true
-        }
+        easing: 'easeInOutCubic'
       })
   },
   methods: {
@@ -137,7 +133,6 @@ export default {
     },
     questionClick: function (key) {
       this.activeStat = key
-      this.animeData = true
     }
   },
   components: {

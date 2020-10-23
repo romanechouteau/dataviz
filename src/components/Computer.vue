@@ -18,7 +18,7 @@ export default {
   name: 'Computer',
   props: {
     data: Object,
-    animeData: Boolean
+    activeStat: String
   },
   data () {
     return {
@@ -42,29 +42,17 @@ export default {
       return ids
     }
   },
-  watch: {
-    animeData: function (newVal, oldVal) {
-      if (newVal === true && this.$refs) {
-        this
-          .$anime
-          .timeline()
-          .add({
-            targets: [this.$refs.computer],
-            opacity: [0, 1],
-            duration: 500,
-            delay: this.$anime.stagger(200),
-            easing: 'easeInOutCubic',
-            complete: () => {
-              this.animeData = true
-            }
-          })
-      }
-    }
-  },
   mounted () {
-    if (this.$props.animeData === false) {
-      this.$refs.computer.style.opacity = 0
-    }
+    this
+      .$anime
+      .timeline()
+      .add({
+        targets: [this.$refs.computer],
+        opacity: [0, 1],
+        duration: 500,
+        delay: 500,
+        easing: 'easeInOutCubic'
+      })
   }
 }
 </script>
@@ -79,6 +67,7 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+  // transform: translateY(100%);
 
   & .screen {
     position: relative;

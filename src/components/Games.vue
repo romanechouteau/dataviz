@@ -1,8 +1,9 @@
 <template>
   <div class="games-dataviz" ref="games">
     <div v-for="(answer, key) in consoles" v-bind:key="key" :ref="answer.name" :class="'line'">
-      <div class="img"><img :src="require(`../assets/games/${idGames[answer.name]}.png`)" :alt="answer.name"></div>
-      <div class="barWrapper"><div class="bar" :style="{ width: `${size[answer.name]}%`, 'background-color': colors[answer.name]}"><div class="percent" :style="{'color': colors[answer.name]}">{{ answer.value }}%</div></div><div class="percent-placeholder"></div></div>
+      <div class="img"><img :src="require(`../assets/games/${idGames[answer.name]}.png`)" :alt="answer.name" ref="imgBar"></div>
+      <div class="barWrapper"><div class="bar" ref="bar" :id="answer.name" :style="{ width: 0, 'background-color': colors[answer.name]}"><div class="percent" ref="percent" :style="{'color': colors[answer.name]}">{{ answer.value }}%</div></div><div class="percent-placeholder"></div></div>
+      <!-- v-anime="{ width: `${size[answer.name]}%`, duration: 1500, delay: 500 }" -->
     </div>
   </div>
 </template>
@@ -13,8 +14,7 @@ const { lowerCase, forEach, filter } = require('lodash')
 export default {
   name: 'Games',
   props: {
-    data: Object,
-    animeData: Boolean
+    data: Object
   },
   data () {
     return {
@@ -49,29 +49,35 @@ export default {
       return sizes
     }
   },
-  watch: {
-    animeData: function (newVal, oldVal) {
-      if (newVal === true && this.$refs) {
-        this
-          .$anime
-          .timeline()
-          .add({
-            targets: [this.$refs.games],
-            opacity: [0, 1],
-            duration: 500,
-            delay: this.$anime.stagger(200),
-            easing: 'easeInOutCubic',
-            complete: () => {
-              this.animeData = true
-            }
-          })
-      }
-    }
-  },
   mounted () {
-    if (this.$props.animeData === false) {
-      this.$refs.games.style.opacity = 0
-    }
+    this
+      .$anime({
+        targets: [this.$refs.imgBar],
+        opacity: [0, 1],
+        duration: 500,
+        delay: this.$anime.stagger(200, { start: 500 }),
+        easing: 'easeInOutCubic'
+      })
+    this
+      .$anime({
+        targets: [this.$refs.percent],
+        opacity: [0, 1],
+        duration: 500,
+        delay: this.$anime.stagger(200, { start: 500 }),
+        easing: 'easeInOutCubic'
+      })
+    this
+      .$anime
+      .timeline()
+      .add({
+        targets: [this.$refs.bar],
+        width: (el) => {
+          return this.size[el.id] + '%'
+        },
+        duration: 500,
+        delay: this.$anime.stagger(200, { start: 500 }),
+        easing: 'easeOutBounce'
+      })
   }
 }
 </script>

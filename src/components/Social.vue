@@ -17,8 +17,7 @@ const { lowerFirst, forEach, slice } = require('lodash')
 export default {
   name: 'Social',
   props: {
-    data: Object,
-    animeData: Boolean
+    data: Object
   },
   data () {
     return {
@@ -50,29 +49,17 @@ export default {
       return slice(this.$props.data.values, 0, this.$props.data.values.length - 1)
     }
   },
-  watch: {
-    animeData: function (newVal, oldVal) {
-      if (newVal === true && this.$refs) {
-        this
-          .$anime
-          .timeline()
-          .add({
-            targets: [this.$refs.social],
-            opacity: [0, 1],
-            duration: 500,
-            delay: this.$anime.stagger(200),
-            easing: 'easeInOutCubic',
-            complete: () => {
-              this.animeData = true
-            }
-          })
-      }
-    }
-  },
   mounted () {
-    if (this.$props.animeData === false) {
-      this.$refs.social.style.opacity = 0
-    }
+    this
+      .$anime
+      .timeline()
+      .add({
+        targets: [this.$refs.social],
+        opacity: [0, 1],
+        duration: 500,
+        delay: 500,
+        easing: 'easeInOutCubic'
+      })
   }
 }
 </script>
